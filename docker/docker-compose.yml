@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  mc:
+    image: itzg/minecraft-server
+    ports:
+    - 25565:25565
+    environment:
+      EULA: "TRUE"                          # マインクラフトの使用許諾に同意（必須）
+      VERSION: 1.16.4                       # マインクラフトのバージョン
+      DIFFICULTY: normal                    # ゲーム難易度
+      SERVER_NAME: SERVERNAME               # サーバ名
+      TYPE: FORGE                           # サーバのタイプ。今回はForge。
+      FORGEVERSION: 35.1.32                 # Forgeのバージョン
+      ANNOUNCE_PLAYER_ACHIEVEMENTS: "true"  # プレイヤーの達成を表示するかどうか（任意）
+      TZ: Asia/Tokyo                        # タイムゾーン
+      ENABLE_RCON: "true"                   # RCON（マインクラフトの遠隔操作）を有効にする
+      RCON_PASSWORD: "PASSWORD"             # RCONのパスワード
+      RCON_PORT: 28016                      # RCONのポート番号
+      ENABLE_QUERY: "true"                  # サーバーの稼働状態の送信を有効
+      ENABLE_STATUS: "true"                 # サーバーの詳細な？稼働状態の送信を有効
+      OPS: Operator_Name                    # サーバオペレータ（OP権限）ユーザの設定
+      USE_AIKAR_FLAGS: "true"               # Java変数の最適化
+      MEMORY: 1G                            # Javaで確保するメモリ(通常1Gくらい)
+      #USE_LARGE_PAGES: "true"              # Javaラージページの設定（メモリ12GB以上の場合）
+
+    tty: true
+    stdin_open: true
+    restart: always
+
+    volumes:
+    - mc_forge:/data  # データの永続化
+    - ./mods:/mods:ro # ./mods下にmodを導入
+
+volumes:
+  mc_forge: {}
